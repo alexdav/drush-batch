@@ -14,15 +14,12 @@ ini_set('memory_limit', '256M');
 /**
  * Batch callback.
  */
-function batch_callback($vars) {
+function batch_callback($entity_type, $id, array $vars = array()) {
   $current_set = &_batch_current_set();
   $high_water_var = $current_set['script_settings']['high_water_var'];
   $dry_run = !empty($current_set['script_settings']['dry_run']);
 
-  $id = $vars['entity_id'];
-  $entity_type = $vars['entity_type'];
-  $wrapper = entity_metadata_wrapper($vars['entity_type'], $id);
-
+  $wrapper = entity_metadata_wrapper($entity_type, $id);
   if (!$wrapper->getBundle()) {
     drush_log(dt('Could not load entity @type with ID @id', array(
       '@type' => $entity_type,

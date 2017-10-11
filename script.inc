@@ -27,6 +27,7 @@ $batch = array(
 
 // Get the entities we're updating.
 require "entities.inc";
+$entities = \Drupal\_drush_script\get_entities();
 
 // Sort the entities so we can have a high water mark.
 asort($entities);

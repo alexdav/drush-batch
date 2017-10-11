@@ -7,9 +7,15 @@
  * The format should be the key is the entity ID and the value is an array of
  * arguments passed to the batch callback.
  */
-$entities = array(
-  1 => array(
-    'entity_type' => 'node',
-    'entity_id' => 1,
-  ),
-);
+
+namespace Drupal\_drush_script;
+
+function get_entities() {
+  return array(
+    1 => array(
+      'entity_type' => 'node',
+      'entity_id' => 1,
+      'vars' => array(),
+    ),
+  );
+}
