@@ -45,10 +45,15 @@ function batch_callback($entity_type, $id, array $vars = array()) {
     $number_processed = $total - $current_set['count'] + 1;
     $approximate_total_time = $seconds / ($number_processed / $total);
     $remaining = $approximate_total_time - $seconds;
-    drush_log(dt('Updated id @id. Remaining time: @remaining. Memory usage: @memory.', array(
+    drush_log(dt('Updated id @id. Remaining time: @remaining.@memory', array(
       '@id' => $id,
       '@remaining' => format_interval($remaining, 3),
-      '@memory' => drush_format_size(memory_get_usage()),
+      '@memory' => drush_get_context('DRUSH_DEBUG') ?
+        '' :
+        ' ' . dt('Memory usage: @memory.', array(
+          '@memory' => drush_format_size(memory_get_usage()),
+        )
+      ),
     )), 'completed');
   }
   catch (\Exception $e) {
