@@ -29,7 +29,8 @@ function batch_callback($entity_type, $id, array $vars = array()) {
   }
 
   try {
-    do_work($wrapper);
+    require_once "work.inc";
+    \Drupal\_drush_script\do_work($wrapper, $vars);
 
     if (!$dry_run) {
       $wrapper->save();
