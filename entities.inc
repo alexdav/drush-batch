@@ -11,11 +11,29 @@
 namespace Drupal\_drush_script;
 
 function get_entities() {
-  return array(
-    1 => array(
-      'entity_type' => 'node',
-      'entity_id' => 1,
+  require_once "query.inc";
+  $query = \Drupal\_drush_script\get_query();
+
+  if (is_string($query)) {
+    $results = db_query($query);
+  }
+  elseif (is_array($query)) {
+    list($query, $args, $options) = $query;
+    $results = db_query($query, $args, $options);
+  }
+  elseif ($query instanceof \SelectQuery) {
+    $results = $query->execute();
+  }
+
+  $records = array();
+  foreach ($results as $result) {
+    $id = $result->entity_id;
+    $entity_type = $result->entity_type ?? 'node';
+
+    $records[$id] = array(
+      'entity_type' => $entity_type,
+      'entity_id' => $id,
       'vars' => array(),
-    ),
-  );
+    );
+  }
 }
